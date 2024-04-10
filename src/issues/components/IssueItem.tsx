@@ -31,7 +31,7 @@ export const IssueItem: FC<Props> = ({ issue }) => {
 
                 <div className='d-flex align-items-center'>
                     <img src={issue.user.avatar_url} alt="User Avatar" className="avatar" />
-                    <span className='px-2'>2</span>
+                    <span className='px-2'>{issue.comments}</span>
                     <FiMessageSquare />
                 </div>
 
