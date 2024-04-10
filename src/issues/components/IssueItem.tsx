@@ -37,7 +37,7 @@ export const IssueItem: FC<Props> = ({ issue }) => {
             ['issue', issue.number],
             issue,
             {
-                updatedAt: new Date().getTime() + 10000
+                updatedAt: new Date().getTime() + 100000
             }
 
         )
