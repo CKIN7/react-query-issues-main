@@ -15,8 +15,8 @@ export const IssueItem: FC<Props> = ({ issue }) => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    const onMouseEnter = () => {
-        
+    const prefetchData = () => {
+
         queryClient.prefetchQuery({
             queryKey: ['issue', issue.number],
             queryFn: () => getIssueInfo(issue.number),
@@ -31,10 +31,22 @@ export const IssueItem: FC<Props> = ({ issue }) => {
 
     }
 
+    const preSetData = () => {
+
+            queryClient.setQueryData(
+            ['issue', issue.number],
+            issue,
+            {
+                updatedAt: new Date().getTime() + 10000
+            }
+
+        )
+    }
+
     return (
         <div className="card mb-2 issue"
             onClick={() => navigate(`/issues/issue/${issue.number}`)}
-            onMouseEnter={ onMouseEnter }
+            onMouseEnter={preSetData}
         >
             <div className="card-body d-flex align-items-center">
 
