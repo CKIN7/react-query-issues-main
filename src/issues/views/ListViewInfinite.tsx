@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { IssueList } from '../components/IssueList';
 import { LabelPicker } from '../components/LabelPicker';
-import { useIssues } from '../../hooks';
 import Oval from 'react-loading-icons/dist/esm/components/oval';
 import { State } from '../../interfaces';
+import { useIssueInfinite } from '../../hooks';
 
 
 export const ListViewInfinite = () => {
@@ -11,7 +11,7 @@ export const ListViewInfinite = () => {
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
   const [state, setState] = useState<State>()
 
-  const { issuesQuery, page, nextPage, prevPage } = useIssues({ state, labels: selectedLabels }) 
+  const { issuesQuery } = useIssueInfinite({ state, labels: selectedLabels }) 
 
   const onLabelChange = (labelName: string) => {
     (selectedLabels.includes(labelName))
@@ -26,13 +26,15 @@ export const ListViewInfinite = () => {
           issuesQuery.isLoading
           ? <Oval />
           : <IssueList 
-          issues={issuesQuery.data || []}
+          issues={issuesQuery.data?.pages.flat() || []}
           state={ state }
           onStateChanged={ (newState) => setState(newState) }
           />
         }
 
-        <button className='btn btn-outline-primary mt-2'>
+        <button className='btn btn-outline-primary mt-2'
+        disabled={ !issuesQuery.hasNextPage }
+        onClick={ () => issuesQuery.fetchNextPage() }>
           Load More...
         </button>
       
