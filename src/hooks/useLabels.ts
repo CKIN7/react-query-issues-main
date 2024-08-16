@@ -1,17 +1,13 @@
-import { useQuery } from "@tanstack/react-query"
-import { Label } from "../interfaces/label"
-import { gitHubApi } from "../../api/gitHubApi"
-import { sleep } from "../helpers/sleep"
+import { useQuery } from '@tanstack/react-query';
+import { Label } from '../interfaces/label';
+import { gitHubApi } from '../../api/gitHubApi';
 
-const getLabels = async ():Promise<Label[]> => {
-    await sleep(2)
-    const { data } = await gitHubApi.get<Label[]>('/labels?per_page=100')
-    return data
-}
-
+const getLabels = async (): Promise<Label[]> => {
+    const { data } = await gitHubApi.get<Label[]>('/labels?per_page=100');
+    return data;
+};
 
 export const useLabels = () => {
-  
     const labelsQuery = useQuery({
         queryKey: ['labels'],
         queryFn: getLabels,
@@ -36,7 +32,7 @@ export const useLabels = () => {
         //     default: false,
         // }
         // ] // placeholderData, mientras se hace la peticion muestra esta data y a pesar de que tenemos el staleTime despues de que se resuelve el fetching ya ahi tenemos eso y no muestra el loading porque tenemos data
-      })
+    });
 
-    return labelsQuery  
-}
+    return labelsQuery;
+};
